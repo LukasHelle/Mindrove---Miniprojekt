@@ -1,0 +1,7 @@
+; Engine configuration file.
+
+[application]
+
+config/name="minerove"
+config/icon="res://icon.svg"
+config/features=PackedStringArray("4.7")

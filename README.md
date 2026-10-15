@@ -1,0 +1,3 @@
+# minerove
+
+A Godot project
