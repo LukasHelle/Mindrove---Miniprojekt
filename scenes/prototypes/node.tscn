@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://djs6vax0ev5xt"]
+
+[ext_resource type="Script" uid="uid://cu16vn8xdnpfy" path="res://scenes/prototypes/hallo_note.gd" id="1_sy5k4"]
+
+[node name="Node" type="Node" unique_id=253576309]
+script = ExtResource("1_sy5k4")
+
+[node name="EmgBand" type="EmgBand" parent="." unique_id=1890382576]

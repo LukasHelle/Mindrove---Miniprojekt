@@ -1,0 +1,342 @@
+[gd_scene format=3 uid="uid://75nmt2nuvlpn"]
+
+[ext_resource type="Script" uid="uid://c3c22pje3vbso" path="res://scenes/games/race/race.gd" id="1_race"]
+[ext_resource type="PackedScene" uid="uid://7l1irinimxa" path="res://addons/srcoder_simplecar/car.tscn" id="2_8tr17"]
+[ext_resource type="Script" uid="uid://c0utsva0q8c3o" path="res://scenes/games/race/emg_car.gd" id="3_emgcar"]
+[ext_resource type="PackedScene" uid="uid://rjx8tx5y7j2p" path="res://addons/srcoder_simplecar/follow_camera.tscn" id="4_camera"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial_race"]
+
+[sub_resource type="Sky" id="Sky_race"]
+sky_material = SubResource("SkyMaterial_race")
+
+[sub_resource type="Environment" id="Environment_race"]
+background_mode = 2
+sky = SubResource("Sky_race")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="Material_grass"]
+albedo_color = Color(0.3, 0.55, 0.25, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+material = SubResource("Material_grass")
+size = Vector2(400, 400)
+
+[sub_resource type="WorldBoundaryShape3D" id="Shape_ground"]
+
+[sub_resource type="Curve3D" id="Curve3D_track"]
+_data = {
+"points": PackedVector3Array(-20, 0, 0, 20, 0, 0, 0, 0, 0, -22, 0, 0, 22, 0, 0, 100, 0, 0, 0, 0, 22, 0, 0, -22, 140, 0, -40, 20, 0, 0, -20, 0, 0, 100, 0, -80, 12, 0, 0, -12, 0, 0, 60, 0, -68, 12, 0, 0, -12, 0, 0, 25, 0, -80, 0, 0, -20, 0, 0, 20, -40, 0, -45, -20, 0, 0, 20, 0, 0, 0, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[sub_resource type="StandardMaterial3D" id="Material_cone"]
+albedo_color = Color(1, 0.45, 0.05, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cone"]
+material = SubResource("Material_cone")
+top_radius = 0.05
+height = 1.2
+
+[sub_resource type="CylinderShape3D" id="Shape_cone"]
+height = 1.2
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Material_road"]
+albedo_color = Color(0.22, 0.22, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_white"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_line"]
+material = SubResource("Material_white")
+size = Vector3(1, 0.02, 10)
+
+[node name="Race" type="Node3D" unique_id=326286368]
+script = ExtResource("1_race")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1653390097]
+environment = SubResource("Environment_race")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1343259024]
+transform = Transform3D(0.8253356, -0.44229966, 0.3509874, 0, 0.62161, 0.7833269, -0.5646425, -0.6465076, 0.51303685, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=436984314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, -0.05, -40)
+mesh = SubResource("PlaneMesh_ground")
+
+[node name="Body" type="StaticBody3D" parent="Ground" unique_id=1329886592]
+
+[node name="Shape" type="CollisionShape3D" parent="Ground/Body" unique_id=579335593]
+shape = SubResource("Shape_ground")
+
+[node name="Track" type="Path3D" parent="." unique_id=562638613]
+unique_name_in_owner = true
+curve = SubResource("Curve3D_track")
+
+[node name="Cone1" type="PathFollow3D" parent="Track" unique_id=2141229504 groups=["obstacles"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 39.999996, 0, 2.5)
+progress = 40.0
+h_offset = 2.5
+
+[node name="Mesh" type="MeshInstance3D" parent="Track/Cone1" unique_id=2056636496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("CylinderMesh_cone")
+
+[node name="Body" type="StaticBody3D" parent="Track/Cone1" unique_id=1003612390]
+
+[node name="Shape" type="CollisionShape3D" parent="Track/Cone1/Body" unique_id=1421192036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_cone")
+
+[node name="Cone2" type="PathFollow3D" parent="Track" unique_id=450182860 groups=["obstacles"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 75.000015, 0, -2.5)
+progress = 75.0
+h_offset = -2.5
+
+[node name="Mesh" type="MeshInstance3D" parent="Track/Cone2" unique_id=1230578563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("CylinderMesh_cone")
+
+[node name="Body" type="StaticBody3D" parent="Track/Cone2" unique_id=715863967]
+
+[node name="Shape" type="CollisionShape3D" parent="Track/Cone2/Body" unique_id=671354093]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_cone")
+
+[node name="Cone3" type="PathFollow3D" parent="Track" unique_id=612420349 groups=["obstacles"]]
+transform = Transform3D(0.24882631, 0, -0.9685481, 0, 1, 0, 0.9685481, 0, 0.24882631, 109.89541, 0, -1.246716)
+progress = 110.0
+
+[node name="Mesh" type="MeshInstance3D" parent="Track/Cone3" unique_id=1399693164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("CylinderMesh_cone")
+
+[node name="Body" type="StaticBody3D" parent="Track/Cone3" unique_id=1572748619]
+
+[node name="Shape" type="CollisionShape3D" parent="Track/Cone3/Body" unique_id=194155766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_cone")
+
+[node name="Cone4" type="PathFollow3D" parent="Track" unique_id=1814745241 groups=["obstacles"]]
+transform = Transform3D(0.6006766, 0, 0.7994921, 0, 1, 0, -0.7994921, 0, 0.6006766, 121.84694, 0, -69.79366)
+progress = 200.0
+h_offset = -2.5
+
+[node name="Mesh" type="MeshInstance3D" parent="Track/Cone4" unique_id=1638535561]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("CylinderMesh_cone")
+
+[node name="Body" type="StaticBody3D" parent="Track/Cone4" unique_id=662738873]
+
+[node name="Shape" type="CollisionShape3D" parent="Track/Cone4/Body" unique_id=1825433808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_cone")
+
+[node name="Cone5" type="PathFollow3D" parent="Track" unique_id=1740947916 groups=["obstacles"]]
+transform = Transform3D(-0.45128915, 0, 0.8923778, 0, 1, 0, -0.8923778, 0, -0.45128915, 75.14909, 0, -75.86742)
+progress = 250.0
+h_offset = 2.5
+
+[node name="Mesh" type="MeshInstance3D" parent="Track/Cone5" unique_id=1721010787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("CylinderMesh_cone")
+
+[node name="Body" type="StaticBody3D" parent="Track/Cone5" unique_id=982367070]
+
+[node name="Shape" type="CollisionShape3D" parent="Track/Cone5/Body" unique_id=1543504970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_cone")
+
+[node name="Cone6" type="PathFollow3D" parent="Track" unique_id=1906038426 groups=["obstacles"]]
+transform = Transform3D(-0.3085266, 0, 0.9512155, 0, 1, 0, -0.9512155, 0, -0.3085266, 0.42848527, 0, -74.61629)
+progress = 330.0
+
+[node name="Mesh" type="MeshInstance3D" parent="Track/Cone6" unique_id=1438736627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("CylinderMesh_cone")
+
+[node name="Body" type="StaticBody3D" parent="Track/Cone6" unique_id=360043634]
+
+[node name="Shape" type="CollisionShape3D" parent="Track/Cone6/Body" unique_id=1271901790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_cone")
+
+[node name="Cone7" type="PathFollow3D" parent="Track" unique_id=1811160510 groups=["obstacles"]]
+transform = Transform3D(-0.9094164, 0, -0.41588664, 0, 1, 0, 0.41588664, 0, -0.9094164, -33.712067, 0, -29.262087)
+progress = 400.0
+h_offset = -2.5
+
+[node name="Mesh" type="MeshInstance3D" parent="Track/Cone7" unique_id=219604509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("CylinderMesh_cone")
+
+[node name="Body" type="StaticBody3D" parent="Track/Cone7" unique_id=1205211791]
+
+[node name="Shape" type="CollisionShape3D" parent="Track/Cone7/Body" unique_id=1035232148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("Shape_cone")
+
+[node name="Car" parent="." unique_id=1401799079 instance=ExtResource("2_8tr17")]
+unique_name_in_owner = true
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+center_of_mass = Vector3(0, -0.15, 0.15)
+script = ExtResource("3_emgcar")
+steer_falloff_speed = 8.0
+reverse_power = 0.3
+max_brake_force = 3.0
+
+[node name="FollowCamera" parent="." unique_id=2006812918 node_paths=PackedStringArray("follow_target") instance=ExtResource("4_camera")]
+follow_target = NodePath("../Car")
+
+[node name="Road" type="CSGPolygon3D" parent="." unique_id=502872590]
+use_collision = true
+polygon = PackedVector2Array(-5, 0, -5, 0.1, 5, 0.1, 5, 0)
+mode = 2
+path_node = NodePath("../Track")
+path_interval_type = 0
+path_interval = 0.5
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+material = SubResource("Material_road")
+
+[node name="StartLine" type="MeshInstance3D" parent="." unique_id=1612263128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0)
+mesh = SubResource("BoxMesh_line")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=873422858]
+
+[node name="Info" type="Label" parent="HUD" unique_id=1417105229]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 22
+
+[node name="Message" type="Label" parent="HUD" unique_id=520870255]
+unique_name_in_owner = true
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 120.0
+offset_bottom = 200.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 56
+horizontal_alignment = 1
+
+[node name="SpeedBar" type="ProgressBar" parent="HUD" unique_id=204967193]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -56.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+show_percentage = false
+
+[node name="Menu" type="CenterContainer" parent="HUD" unique_id=1616661323]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="HUD/Menu" unique_id=1078003786]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="HUD/Menu/Panel" unique_id=1507829493]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Menu/Panel/Margin" unique_id=512496604]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="HUD/Menu/Panel/Margin/VBox" unique_id=1602892277]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "EMG Race"
+horizontal_alignment = 1
+
+[node name="MenuText" type="Label" parent="HUD/Menu/Panel/Margin/VBox" unique_id=1977557215]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="Controls" type="GridContainer" parent="HUD/Menu/Panel/Margin/VBox" unique_id=1075448230]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="GasLabel" type="Label" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=2100162995]
+layout_mode = 2
+text = "Gas"
+
+[node name="GasPicker" type="OptionButton" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=693518471]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BrakeLabel" type="Label" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=1316173748]
+layout_mode = 2
+text = "Brake"
+
+[node name="BrakePicker" type="OptionButton" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=1200059069]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LeftLabel" type="Label" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=1126190807]
+layout_mode = 2
+text = "Left"
+
+[node name="LeftPicker" type="OptionButton" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=1132235070]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightLabel" type="Label" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=1241483886]
+layout_mode = 2
+text = "Right"
+
+[node name="RightPicker" type="OptionButton" parent="HUD/Menu/Panel/Margin/VBox/Controls" unique_id=1052872530]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StartButton" type="Button" parent="HUD/Menu/Panel/Margin/VBox" unique_id=899723952]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start race"
+
+[node name="CalibrateButton" type="Button" parent="HUD/Menu/Panel/Margin/VBox" unique_id=1186499630]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Calibrate"
+
+[node name="MainMenuButton" type="Button" parent="HUD/Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Main menu"
+
+[connection signal="pressed" from="HUD/Menu/Panel/Margin/VBox/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="HUD/Menu/Panel/Margin/VBox/CalibrateButton" to="." method="_on_calibrate_pressed"]
+[connection signal="pressed" from="HUD/Menu/Panel/Margin/VBox/MainMenuButton" to="." method="_on_main_menu_pressed"]

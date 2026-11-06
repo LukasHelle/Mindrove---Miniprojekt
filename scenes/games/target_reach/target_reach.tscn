@@ -1,0 +1,135 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dues7fj5jwn1k" path="res://scenes/games/target_reach/target_reach.gd" id="1_reach"]
+
+[node name="TargetReach" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_reach")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08, 0.09, 0.12, 1)
+
+[node name="Arena" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Info" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+theme_override_font_sizes/font_size = 20
+
+[node name="Menu" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Menu"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Menu/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="Menu/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Menu/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Target Reach"
+horizontal_alignment = 1
+
+[node name="MenuText" type="Label" parent="Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="Controls" type="GridContainer" parent="Menu/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="UpLabel" type="Label" parent="Menu/Panel/Margin/VBox/Controls"]
+layout_mode = 2
+text = "Up"
+
+[node name="UpPicker" type="OptionButton" parent="Menu/Panel/Margin/VBox/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DownLabel" type="Label" parent="Menu/Panel/Margin/VBox/Controls"]
+layout_mode = 2
+text = "Down"
+
+[node name="DownPicker" type="OptionButton" parent="Menu/Panel/Margin/VBox/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LeftLabel" type="Label" parent="Menu/Panel/Margin/VBox/Controls"]
+layout_mode = 2
+text = "Left"
+
+[node name="LeftPicker" type="OptionButton" parent="Menu/Panel/Margin/VBox/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightLabel" type="Label" parent="Menu/Panel/Margin/VBox/Controls"]
+layout_mode = 2
+text = "Right"
+
+[node name="RightPicker" type="OptionButton" parent="Menu/Panel/Margin/VBox/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StartButton" type="Button" parent="Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start game"
+
+[node name="CalibrateButton" type="Button" parent="Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Calibrate"
+
+[node name="MainMenuButton" type="Button" parent="Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Main menu"
+
+[connection signal="draw" from="Arena" to="." method="_on_arena_draw"]
+[connection signal="pressed" from="Menu/Panel/Margin/VBox/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Menu/Panel/Margin/VBox/CalibrateButton" to="." method="_on_calibrate_pressed"]
+[connection signal="pressed" from="Menu/Panel/Margin/VBox/MainMenuButton" to="." method="_on_main_menu_pressed"]

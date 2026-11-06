@@ -1,2 +1,2 @@
-# Normalize line endings for every file Git considers text.
+# Normalize EOL for all files that Git considers text files.
 * text=auto eol=lf

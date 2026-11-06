@@ -1,0 +1,150 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/menus/versus_lobby.gd" id="1_lobby"]
+
+[node name="VersusLobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lobby")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11, 0.12, 0.15, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "Versus"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Play the games against others on the local network"
+horizontal_alignment = 1
+
+[node name="NameRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NameLabel" type="Label" parent="Center/Panel/Margin/VBox/NameRow"]
+layout_mode = 2
+text = "Your name"
+
+[node name="NameEdit" type="LineEdit" parent="Center/Panel/Margin/VBox/NameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_length = 20
+
+[node name="ConnectBox" type="VBoxContainer" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HostButton" type="Button" parent="Center/Panel/Margin/VBox/ConnectBox"]
+layout_mode = 2
+text = "Host a match"
+
+[node name="JoinRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox/ConnectBox"]
+layout_mode = 2
+
+[node name="AddressEdit" type="LineEdit" parent="Center/Panel/Margin/VBox/ConnectBox/JoinRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Host IP, e.g. 192.168.1.20"
+
+[node name="JoinButton" type="Button" parent="Center/Panel/Margin/VBox/ConnectBox/JoinRow"]
+layout_mode = 2
+text = "Join"
+
+[node name="MatchBox" type="VBoxContainer" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AddressLabel" type="Label" parent="Center/Panel/Margin/VBox/MatchBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="PlayersLabel" type="Label" parent="Center/Panel/Margin/VBox/MatchBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Players"
+
+[node name="Players" type="VBoxContainer" parent="Center/Panel/Margin/VBox/MatchBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HostControls" type="HBoxContainer" parent="Center/Panel/Margin/VBox/MatchBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GamePicker" type="OptionButton" parent="Center/Panel/Margin/VBox/MatchBox/HostControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StartButton" type="Button" parent="Center/Panel/Margin/VBox/MatchBox/HostControls"]
+layout_mode = 2
+text = "Start game"
+
+[node name="WaitingLabel" type="Label" parent="Center/Panel/Margin/VBox/MatchBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Waiting for the host to start a game..."
+
+[node name="LeaveButton" type="Button" parent="Center/Panel/Margin/VBox/MatchBox"]
+layout_mode = 2
+text = "Leave match"
+
+[node name="Status" type="Label" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="MainMenuButton" type="Button" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Main menu"
+
+[connection signal="text_changed" from="Center/Panel/Margin/VBox/NameRow/NameEdit" to="." method="_on_name_changed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/ConnectBox/HostButton" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/ConnectBox/JoinRow/JoinButton" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/MatchBox/HostControls/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/MatchBox/LeaveButton" to="." method="_on_leave_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/MainMenuButton" to="." method="_on_main_menu_pressed"]
