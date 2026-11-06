@@ -12,3 +12,7 @@ __pycache__/
 .venv/
 venv/
 .env
+*.svg.import
+/icon.png
+/icon.png.import
+addons/tau-plot/tests/assets/
