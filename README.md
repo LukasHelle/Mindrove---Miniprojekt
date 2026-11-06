@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # What is it?
  This is a Godot project template for hosting and joining multiplayer games using Steam or local connection.
 
@@ -69,3 +70,6 @@ The `DataPayload` class is a lightweight, extensible packet-based system enginee
 
 * **Current Implementation:** Actively triggers in-game lobby invite warnings and routes direct message invites via the Steam app.
 * **Extensibility:** Designed for modularity. You can easily implement custom data packets by referencing the existing `STEAM_LOBBY_INVITE` payload type as a structural template.
+=======
+# Mindrove---Miniprojekt
+>>>>>>> origin/main
